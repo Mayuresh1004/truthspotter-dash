@@ -1,55 +1,90 @@
-import { Search, Shield } from "lucide-react"
+import { Shield, HelpCircle, Settings, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { ThemeToggle } from "@/components/ThemeToggle"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
-interface TopNavigationProps {
-  onSearch: (query: string) => void
-  isSearching?: boolean
-}
-
-export function TopNavigation({ onSearch, isSearching = false }: TopNavigationProps) {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const query = formData.get("search") as string
-    if (query.trim()) {
-      onSearch(query.trim())
-    }
-  }
-
+export function TopNavigation() {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
-        <div className="flex gap-6 md:gap-10">
-          <div className="flex items-center space-x-2">
-            <Shield className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold gradient-text">MythBuster</span>
-          </div>
+      <div className="container flex h-16 items-center justify-between">
+        {/* Logo/Brand */}
+        <div className="flex items-center space-x-2">
+          <Shield className="h-6 w-6 text-primary" />
+          <span className="text-xl font-bold gradient-text">TruthSpotter</span>
         </div>
 
-        <div className="flex flex-1 items-center justify-end space-x-4">
-          <nav className="flex items-center space-x-4">
-            <form onSubmit={handleSubmit} className="relative w-full max-w-md">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                name="search"
-                placeholder="Enter claim to verify..."
-                className="pl-9 pr-4"
-                disabled={isSearching}
-              />
-              <Button 
-                type="submit" 
-                size="sm" 
-                className="absolute right-1 top-1/2 -translate-y-1/2"
-                disabled={isSearching}
-              >
-                {isSearching ? "Checking..." : "Verify"}
+        {/* Navigation Items */}
+        <nav className="flex items-center space-x-4">
+          {/* Help Button */}
+          <Button variant="ghost" size="sm" className="flex items-center gap-2">
+            <HelpCircle className="h-4 w-4" />
+            <span className="hidden sm:inline">Help</span>
+          </Button>
+
+          {/* Settings Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="flex items-center gap-2">
+                <Settings className="h-4 w-4" />
+                <span className="hidden sm:inline">Settings</span>
               </Button>
-            </form>
-            <ThemeToggle />
-          </nav>
-        </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel>Preferences</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <span>Language</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <span>Notifications</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <span>Export History</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <span>About TruthSpotter</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* User Profile (placeholder for future authentication) */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="flex items-center gap-2">
+                <User className="h-4 w-4" />
+                <span className="hidden sm:inline">Account</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <span>Sign In</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <span>Create Account</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <span>Privacy Policy</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <span>Terms of Service</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Theme Toggle */}
+          <ThemeToggle />
+        </nav>
       </div>
     </header>
   )
