@@ -1,9 +1,7 @@
-import { Search, Shield, Clock, CheckCircle, XCircle, AlertCircle } from "lucide-react"
+import { Search, Shield } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 interface TopNavigationProps {
   onSearch: (query: string) => void
@@ -31,7 +29,7 @@ export function TopNavigation({ onSearch, isSearching = false }: TopNavigationPr
         </div>
 
         <div className="flex flex-1 items-center justify-end space-x-4">
-          <nav className="flex items-center space-x-2">
+          <nav className="flex items-center space-x-4">
             <form onSubmit={handleSubmit} className="relative w-full max-w-md">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
@@ -49,6 +47,7 @@ export function TopNavigation({ onSearch, isSearching = false }: TopNavigationPr
                 {isSearching ? "Checking..." : "Verify"}
               </Button>
             </form>
+            <ThemeToggle />
           </nav>
         </div>
       </div>
