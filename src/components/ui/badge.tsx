@@ -15,6 +15,12 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",
+        "verified-true":
+          "border-transparent bg-verified-true text-verified-true-foreground hover:bg-verified-true/80",
+        "verified-false":
+          "border-transparent bg-verified-false text-verified-false-foreground hover:bg-verified-false/80",
+        unverified:
+          "border-transparent bg-unverified text-unverified-foreground hover:bg-unverified/80",
       },
     },
     defaultVariants: {
