@@ -1,1 +1,0 @@
-postgresql:"//postgres:[YOUR-PASSWORD]@db.bfaxufnnfphnqmlqgzlo.supabase.co:5432/postgres"
