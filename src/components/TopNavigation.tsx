@@ -24,7 +24,7 @@ export function TopNavigation({ onSearch, isSearching = false }: TopNavigationPr
         <div className="flex gap-6 md:gap-10">
           <div className="flex items-center space-x-2">
             <Shield className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold gradient-text">TruthSpotter</span>
+            <span className="text-xl font-bold gradient-text">MythBuster</span>
           </div>
         </div>
 
