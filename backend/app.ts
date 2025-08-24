@@ -2,8 +2,8 @@ import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+import chatRoutes from './routes/chat.routes';
 
-// Load environment variables
 dotenv.config();
 
 console.log('Environment variables loaded');
@@ -13,7 +13,6 @@ console.log('PORT:', process.env.PORT || '3000');
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
-// Basic middleware
 app.use(helmet());
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
@@ -27,6 +26,9 @@ app.get('/', (req: Request, res: Response) => {
     status: 'Working'
   });
 });
+
+
+app.use('/api/chat', chatRoutes);
 
 app.get('/health', (req: Request, res: Response) => {
   res.json({

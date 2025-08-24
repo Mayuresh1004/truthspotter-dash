@@ -11,17 +11,17 @@ import {
 const router = Router();
 
 // Message routes
-router.post('/messages', validateCreateMessage, chatController.addMessage.bind(chatController));
+router.post('/messages',  chatController.addMessage.bind(chatController));
 
 // Cleanup route (specific route before parameterized routes)
-router.delete('/sessions/cleanup', validateQueryLimit, chatController.clearOldSessions.bind(chatController));
+router.delete('/sessions/cleanup',  chatController.clearOldSessions.bind(chatController));
 
 // Session routes (parameterized routes go last)
-router.post('/sessions', validateCreateSession, chatController.createSession.bind(chatController));
-router.get('/sessions', validateQueryLimit, chatController.getAllSessions.bind(chatController));
-router.get('/sessions/:id', validateSessionId, chatController.getSession.bind(chatController));
-router.get('/sessions/:id/messages', validateSessionId, chatController.getSessionMessages.bind(chatController));
-router.put('/sessions/:id', validateUpdateSession, chatController.updateSession.bind(chatController));
-router.delete('/sessions/:id', validateSessionId, chatController.deleteSession.bind(chatController));
+router.post('/sessions',  chatController.createSession.bind(chatController));
+router.get('/sessions',  chatController.getAllSessions.bind(chatController));
+router.get('/sessions/:id',  chatController.getSession.bind(chatController));
+router.get('/sessions/:id/messages',  chatController.getSessionMessages.bind(chatController));
+router.put('/sessions/:id',  chatController.updateSession.bind(chatController));
+router.delete('/sessions/:id',  chatController.deleteSession.bind(chatController));
 
 export default router;
