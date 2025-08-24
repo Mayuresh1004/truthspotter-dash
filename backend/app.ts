@@ -2,24 +2,32 @@ import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
-import chatRoutes from './routes/chat.routes';
 
 // Load environment variables
 dotenv.config();
 
+console.log('Environment variables loaded');
+console.log('SUPABASE_URL:', process.env.SUPABASE_URL ? 'Present' : 'Missing');
+console.log('PORT:', process.env.PORT || '3000');
+
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(helmet()); // Security headers
-app.use(cors()); // Enable CORS
-app.use(express.json({ limit: '10mb' })); // Parse JSON bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+// Basic middleware
+app.use(helmet());
+app.use(cors());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
 
-// Routes
-app.use('/api/chat', chatRoutes);
+// Test routes first
+app.get('/', (req: Request, res: Response) => {
+  res.json({
+    message: 'Chat History API - Minimal Version',
+    version: '1.0.0',
+    status: 'Working'
+  });
+});
 
-// Health check endpoint
 app.get('/health', (req: Request, res: Response) => {
   res.json({
     status: 'OK',
@@ -28,48 +36,34 @@ app.get('/health', (req: Request, res: Response) => {
   });
 });
 
-// Default route
-app.get('/', (req: Request, res: Response) => {
+// Add a simple test route to verify basic functionality
+app.get('/test', (req: Request, res: Response) => {
   res.json({
-    message: 'Chat History API',
-    version: '1.0.0',
-    endpoints: {
-      'GET /health': 'Health check',
-      'POST /api/chat/sessions': 'Create new session',
-      'GET /api/chat/sessions': 'Get all sessions',
-      'GET /api/chat/sessions/:id': 'Get session with messages',
-      'PUT /api/chat/sessions/:id': 'Update session title',
-      'DELETE /api/chat/sessions/:id': 'Delete session',
-      'POST /api/chat/messages': 'Add message to session',
-      'GET /api/chat/sessions/:id/messages': 'Get session messages',
-      'DELETE /api/chat/sessions/cleanup': 'Clean old sessions'
+    message: 'Test route working',
+    env: {
+      NODE_ENV: process.env.NODE_ENV || 'development',
+      PORT: process.env.PORT || 3000,
+      SUPABASE_URL: process.env.SUPABASE_URL ? 'Set' : 'Not set'
     }
   });
 });
 
-// Error handling middleware
-app.use((err: Error, req: Request, res: Response, next: any) => {
-  console.error('Unhandled error:', err);
-  res.status(500).json({
-    success: false,
-    error: 'Internal server error',
-    ...(process.env.NODE_ENV === 'development' && { details: err.message })
-  });
-});
-
-// 404 handler
-app.use('*', (req: Request, res: Response) => {
-  res.status(404).json({
-    success: false,
-    error: 'Endpoint not found'
-  });
-});
+console.log('Routes defined, attempting to start server...');
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`Health check: http://localhost:${PORT}/health`);
-});
+try {
+  const server = app.listen(PORT, () => {
+    console.log(`✅ Minimal server running on port ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`Test it: http://localhost:${PORT}/test`);
+  });
+
+  server.on('error', (error: any) => {
+    console.error('Server error:', error);
+  });
+} catch (error) {
+  console.error('Failed to start server:', error);
+  process.exit(1);
+}
 
 export default app;
