@@ -1,4 +1,4 @@
-// File: C:\Users\Mayuresh\Downloads\truthspotter-dash-main\truthspotter-dash-main\src\app\layout.tsx
+// File: C:\Users\admin\Downloads\truthspotter-dash\src\app\layout.tsx
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
